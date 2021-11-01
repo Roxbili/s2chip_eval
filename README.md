@@ -7,6 +7,18 @@
 
 因此，最终方案请看tcp文件夹。
 
+
+## 文件夹介绍
+tcp: 最终显示方案，使用tcp协议实现
+udp：废弃的udp协议显示方案
+useless: 一些废弃的显示类代码
+tools: 工具文件夹，包含
+- bram.py: bram读写操作，地址管理
+- interaction.py: 和PL交互，是bram.py更高层次的接口
+- utils.py: 提供如Log，Timer等功能性类
+
+--------------------------------------------------------
+
 ## USB摄像头查询
 ```bash
 ls -ltrh /dev/video*

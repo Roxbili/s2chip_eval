@@ -30,21 +30,31 @@ class BramConfig(object):
     block_info = {}
     # 构建新逻辑块参考以下写法
     # 若块内偏移量无特殊含义，则约定key为default，值为0，可根据实际需求修改
-    block_info['input'] = _construct_block_info(
-        address=0x40000000, size=128*1024,
-        **{'default': 0x0}
+
+    #############################################
+    # ir block中包含instr + flag
+    # instr包含以下字段：
+    #    - uint32 data_startaddr ;  //
+    #    - uint32 data_length ;  // byte
+    #    - uint32 sync_cycle ;   // 65536
+    # flag: uint32
+    #############################################
+
+    block_info['write_ir'] = _construct_block_info(
+        address=0x40000000, size=4*1024,
+        **{'instr': 0x0, 'flag': 0x12}
     )
-    block_info['weight'] = _construct_block_info(
+    block_info['write_buffer'] = _construct_block_info(
         address=0x40020000, size=128*1024,
         **{'default': 0x0}
     )
-    block_info['output'] = _construct_block_info(
-        address=0x40040000, size=128*1024,
-        **{'default': 0x0}
+    block_info['read_ir'] = _construct_block_info(
+        address=0x40040000, size=4*1024,
+        **{'instr': 0x0, 'flag': 0x12}
     )
-    block_info['ir'] = _construct_block_info(
-        address=0x40060000, size=4*1024,
-        **{'flag': 0x0, 'instr': 0x10}
+    block_info['read_buffer'] = _construct_block_info(
+        address=0x40060000, size=128*1024,
+        **{'default': 0x0}
     )
 
 
