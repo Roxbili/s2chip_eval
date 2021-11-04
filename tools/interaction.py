@@ -44,7 +44,7 @@ class Comunicator(object):
 
             uint32 data_startaddr ;  // 块内偏移，用于双缓冲的时候
             uint32 data_length ;  // byte
-            uint32 sync_cycle ;   // 65536
+            uint32 sync_cycle ;   // 65535
         '''
         return np.array([data_startaddr, data_length, sync_cycle], dtype=np.uint32)
 
@@ -78,8 +78,16 @@ class Comunicator(object):
             # 写flag
             self.send_flag('write_ir')
 
-    def read(self, len, block_name: str, offset='default') -> np.ndarray:
-        '''接收结果
+    def read_instr(self):
+        '''写入read块的指令和flag，让PL部分先开始工作'''
+        # 写指令
+        instr = self.construct_instr(0x0, len, 65535)
+        self.bram.write(instr, 'write_ir', offset='instr')
+        # 写flag
+        self.send_flag('read_ir')
+
+    def read_result(self, len, block_name: str, offset='default') -> np.ndarray:
+        '''等待信号并接收结果
 
             Args:
                 len: 读取的数据长度
@@ -89,12 +97,6 @@ class Comunicator(object):
             Return:
                 返回numpy数组
         '''
-        # 写指令
-        instr = self.construct_instr(0x0, len, 65535)
-        self.bram.write(instr, 'write_ir', offset='instr')
-
-        # 写flag
-        self.send_flag('read_ir')
         # 等待信号
         self.wait_for_flag('read_ir')
 
@@ -107,5 +109,6 @@ if __name__ == '__main__':
     comunicator = Comunicator()
 
     data = np.random.randint(0, 256, size=(640, 480), dtype=np.uint8)
+    comunicator.read_instr()
     comunicator.write(data, 'write_buffer')
-    result = comunicator.read(40, 'read_buffer')
+    result = comunicator.read_result(40, 'read_buffer')
