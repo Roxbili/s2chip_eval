@@ -44,7 +44,7 @@ class Comunicator(object):
 
             uint32 data_startaddr ;  // 块内偏移，用于双缓冲的时候
             uint32 data_length ;  // byte
-            uint32 sync_cycle ;   // 65535
+            uint32 sync_cycle ;   // 65536
         '''
         return np.array([data_startaddr, data_length, sync_cycle], dtype=np.uint32)
 
@@ -72,7 +72,7 @@ class Comunicator(object):
             self.bram.write(block_data, block_name, offset)
 
             # 写指令
-            instr = self.construct_instr(0x0, block_data.nbytes, 65535)
+            instr = self.construct_instr(0x0, block_data.nbytes, 65536)
             self.bram.write(instr, 'write_ir', offset='instr')
 
             # 写flag
@@ -81,7 +81,7 @@ class Comunicator(object):
     def read_instr(self):
         '''写入read块的指令和flag，让PL部分先开始工作'''
         # 写指令
-        instr = self.construct_instr(0x0, len, 65535)
+        instr = self.construct_instr(0x0, len, 65536)
         self.bram.write(instr, 'write_ir', offset='instr')
         # 写flag
         self.send_flag('read_ir')
