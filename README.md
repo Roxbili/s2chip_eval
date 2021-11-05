@@ -34,9 +34,9 @@ instr {
 ------------------------------
 
 ## 文件夹介绍
-tcp: 最终显示方案，使用tcp协议实现
-udp：废弃的udp协议显示方案
-useless: 一些废弃的显示类代码
+tcp: 最终显示方案，使用tcp协议实现  
+udp：废弃的udp协议显示方案  
+useless: 一些废弃的显示类代码  
 tools: 工具文件夹，包含
 - bram.py: bram读写操作，地址管理
 - interaction.py: 和PL交互，是bram.py更高层次的接口
@@ -146,8 +146,10 @@ apt install imagemagick
 ```
 
 Tkinter图像显示，canvas需要`pil的imagetk`库(根本不知道是下面哪一句话修好的),
-[参考链接](https://solarianprogrammer.com/2018/04/21/python-opencv-show-video-tkinter-window/)：
+[参考链接](https://solarianprogrammer.com/2018/04/21/python-opencv-show-video-tkinter-window/)。
+
 *(不得不说，在cv2.show用不了的时候最佳的解决方案，因为几乎没有什么第三方库的支持)*
+
 ```bash
 apt install python3-pil.imagetk
 conda uninstall Pillow
