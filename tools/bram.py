@@ -120,11 +120,14 @@ class BRAM(object):
         offset_ = self.block_info[block_name]['offset'][offset]
         map_.seek(offset_)
 
-        data = []
-        for i in range(len):
-            data.append(map_.read_byte())
+        # 按字节读取
+        # data = []
+        # for i in range(len):
+        #     data.append(map_.read_byte())
+        # data = np.array(data, dtype=np.uint8)
+        # data.dtype=dtype   # 按dtype整理数据
 
-        data = np.array(data, dtype=np.uint8)
-        data.dtype=dtype   # 按dtype整理数据
-
+        # 按4bytes读取
+        data = map_.read(len)
+        data = np.frombuffer(data, dtype=dtype)
         return data
